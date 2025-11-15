@@ -2,541 +2,727 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tổ Tiếng Anh</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            font-family: sans-serif;
-        }
-
-        /* ------------------ OPENING SCREEN ------------------ */
-        .baoquanh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #004966;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: keo1 1s forwards;
-            z-index: 2000;
-        }
-
-        .khoi1 {
-            background-color: #ff7714;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: keo 1.4s forwards;
-        }
-
-        .khoi1 img {
-            width: 45vw;
-            max-width: 700px;
-        }
-
-        @keyframes keo {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes keo1 {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(100%);
-            }
-        }
-
-        /* ------------------ LEFT / RIGHT SPLIT ------------------ */
-        .left-block,
-        .right-block {
-            position: absolute;
-            top: 0;
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .left-block {
-            left: -200vw;
-            width: 100vw;
-            background-image: url('bentrai.png');
-            clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
-            z-index: 3;
-        }
-
-        .right-block {
-            right: -200vw;
-            width: 100.7vw;
-            background-image: url('benphai.png');
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
-            z-index: 2;
-        }
-
-        .left-block.run {
-            animation: slideLeft 1s forwards;
-        }
-
-        .right-block.run {
-            animation: slideRight 1s forwards;
-        }
-
-        @keyframes slideLeft {
-            from {
-                left: -65vw;
-            }
-
-            to {
-                left: 0;
-            }
-        }
-
-        @keyframes slideRight {
-            from {
-                right: -65vw;
-            }
-
-            to {
-                right: 0;
-            }
-        }
-
-        /* ------------------ TEXT TITLE ------------------ */
-        .text-gradient {
-            font-size: 8vw;
-            font-weight: 900;
-            font-family: serif;
-            background-color: transparent;
-            -webkit-background-clip: text;
-            -webkit-text-stroke: 2px red;
-            text-shadow: 2px 5px 20px black;
-            color: transparent;
-            color: white;
-            opacity: 0;
-            transform: scale(0.6);
-            animation: showText 1s forwards;
-            animation-delay: 2.3s;
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-
-        @keyframes showText {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* ------------------ MAIN CONTAINER ------------------ */
-        .container {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: #f2f6f7;
-            position: relative;
-        }
-
-        /* ------------------ CONTENT AREA ------------------ */
-        .noidung {
-            background-color: #111;
-            width: 100vw;
-            min-height: 100vh;
-            position: relative;
-            z-index: 10 !important;
-        }
-
-        /* ------------------ BUBBLE AREA ------------------ */
-        .bubble-container {
-            width: 100%;
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            padding: 70px 0;
-            background-image: url('background2.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-            border: 4px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 25px rgba(8, 8, 8, 0.788), 0 0 60px rgba(255, 255, 255, 0.4);
-            transition: transform 0.3s ease;
-        }
-
-        .bubble img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bubble:hover {
-            transform: scale(1.12);
-        }
-
-        @keyframes float1 {
-
-            0%,
-            100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-
-            25% {
-                transform: translate(25px, 20px) rotate(4deg);
-            }
-
-            50% {
-                transform: translate(-20px, 35px) rotate(-3deg);
-            }
-
-            75% {
-                transform: translate(30px, 10px) rotate(2deg);
-            }
-        }
-
-        /* ------------------ MODAL ------------------ */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 25px;
-            width: 90%;
-            max-width: 450px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            text-align: center;
-            padding-bottom: 20px;
-        }
-
-        .modal-header {
-            height: 180px;
-            background: url('background2.jpg') center / cover;
-            border-radius: 25px 25px 0 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 5px solid white;
-            object-fit: cover;
-        }
-
-        .modal-body {
-            padding: 70px 20px 20px;
-        }
-
-        .modal-name {
-            font-size: 26px;
-            font-weight: bold;
-        }
-
-        .modal-position {
-            font-size: 18px;
-            margin: 10px 0;
-            color: #e45;
-        }
-
-        .modal-description {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        /* ------------------ TASKBAR ------------------ */
-        .taskbar {
-            width: 100vw;
-            height: 7vh;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            z-index: 20;
-        }
-
-        .logotaskbar {
-            height: 60%;
-            margin-left: 20px;
-        }
-
-        .more {
-            height: 40%;
-            margin-right: 30px;
-            cursor: pointer;
-            transition: 0.5s;
-        }
-
-        .more:hover {
-            transform: scale(1.1);
-        }
-
-        /* ------------------ SIDEBAR ------------------ */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -350px;
-            width: 300px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.6);
-            transition: 0.4s ease;
-            z-index: 3000;
-            padding: 20px;
-            padding-top: 100px;
-            color: white;
-        }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        /* ------------------ 20/11 CARD ------------------ */
-        .noidung3 {
-            width: 100vw;
-            min-height: 100vh;
-            background-image: url('background4.jpg');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 0;
-        }
-
-        .thiep {
-            background: rgba(255, 118, 20, 0.9);
-            width: 1000px;
-            max-width: 90%;
-            border-radius: 50px;
-            padding: 30px;
-            text-align: center;
-            color: white;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease;
-        }
-
-        .thiep.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .thiep-title {
-            font-size: 42px;
-            margin-bottom: 25px;
-        }
-
-        .thiep-content {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .thiep-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            object-fit: cover;
-        }
-
-        .thiep-message {
-            max-width: 600px;
-            font-size: 22px;
-            text-align: left;
-        }
-
-        /* ------------------ RESPONSIVE ------------------ */
-        @media (max-width: 900px) {
-            .text-gradient {
-                font-size: 12vw;
-                margin-top: 20vh;
-            }
-
-            .bubble {
-                border-width: 2px;
-            }
-
-            .modal-avatar {
-                width: 110px;
-                height: 110px;
-            }
-
-            .modal-description {
-                font-size: 16px;
-            }
-
-            .thiep-title {
-                font-size: 32px;
-            }
-
-            .thiep-message {
-                font-size: 18px;
-                text-align: center;
-            }
-
-            .left-block {
-                left: -200vw;
-                width: 100vw;
-                background-image: url('dtnentrai.png');
-                clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
-                z-index: 3;
-            }
-
-            .right-block {
-                right: -200vw;
-                width: 100vw;
-                background-image: url('dtnenphai.png');
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
-                z-index: 2;
-            }
-
-        }
-
-        @media (max-width: 728px) {
-            .khoi1 img {
-                width: 70vw;
-            }
-
-            .bubble {
-                width: 110px !important;
-                height: 110px !important;
-            }
-
-            .modal-content {
-                width: 95%;
-            }
-
-            .left-block {
-                left: -200vw;
-                width: 100vw;
-                background-image: url('dtnentrai.png');
-                clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
-                z-index: 3;
-            }
-
-            .right-block {
-                right: -200vw;
-                width: 100vw;
-                background-image: url('dtnenphai.png');
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
-                z-index: 2;
-            }
-
-
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tổ Tiếng Anh</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet" />
+  <style>
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card {
+      height: 400px;
+      width: 570px;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      cursor: pointer;
+      transition: 2s;
+      -webkit-perspective: 1200px;
+      perspective: 1200px;
+    }
+
+    .card:hover {
+      transform: rotate(-5deg);
+    }
+
+    .card:hover .outside {
+      transform: rotateY(-130deg);
+    }
+
+    .outside {
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      left: 50.1%;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+      transition: 2s;
+      transform-origin: left;
+    }
+
+    .front,
+    .back {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      /*hide backface in firefox*/
+      transform: rotateX(0deg);
+    }
+
+    .front {
+      background-color: #be0f04;
+      z-index: 1;
+    }
+
+    .front:before {
+      content: "";
+      position: absolute;
+      background-color: #101010;
+      height: 80px;
+      width: 100%;
+      top: 240px;
+    }
+
+    .belt {
+      height: 120px;
+      width: 120px;
+      border: 20px solid #e5a037;
+      border-radius: 10px;
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 220px;
+      z-index: 1;
+    }
+
+    .belt:after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 18px;
+      background-color: #d6932e;
+      top: 31px;
+      right: 13px;
+      border-radius: 8px;
+    }
+
+    .mouth {
+      position: absolute;
+      background-color: #efbeab;
+      height: 50px;
+      width: 80px;
+      z-index: 1;
+      border-radius: 0 0 50% 50%;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 20px;
+    }
+
+    .beard {
+      background-color: #f5f5f5;
+      position: absolute;
+      width: 100%;
+      height: 180px;
+      border-radius: 0 0 50% 50%;
+    }
+
+    .beard:before,
+    .beard:after {
+      position: absolute;
+      content: "";
+      width: 130px;
+      height: 50px;
+      background-color: #f5f5f5;
+      box-shadow: 0 10px #d3d3d3;
+      border-radius: 0 0 50% 50%;
+      top: -0px;
+      z-index: 2;
+    }
+
+    .beard:before {
+      left: 13px;
+    }
+
+    .beard:after {
+      right: 13px;
+    }
+
+    .back {
+      background: linear-gradient(to right, #be0f04 50%, #7d0b03);
+      transform: rotateY(180deg);
+    }
+
+    .inside {
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      left: 50%;
+      background: linear-gradient(to left, #be0f04 50%, #7d0b03);
+      font-family: "Parisienne", cursive;
+      color: white;
+      font-size: 70px;
+      text-align: center;
+      line-height: 100px;
+      padding: 90px 10px;
+      box-shadow: 25px 25px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .inside>p {
+      border-bottom: 10px dotted white;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: sans-serif;
+    }
+
+    /* ------------------ OPENING SCREEN ------------------ */
+    .baoquanh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #004966;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: keo1 1s forwards;
+      z-index: 2000;
+    }
+
+    .khoi1 {
+      background-color: #ff7714;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: keo 1.4s forwards;
+    }
+
+    .khoi1 img {
+      width: 45vw;
+      max-width: 700px;
+    }
+
+    @keyframes keo {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes keo1 {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    /* ------------------ LEFT / RIGHT SPLIT ------------------ */
+    .left-block,
+    .right-block {
+      position: absolute;
+      top: 0;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .left-block {
+      left: -200vw;
+      width: 100vw;
+      background-image: url("bentrai.png");
+      clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
+      z-index: 3;
+    }
+
+    .right-block {
+      right: -200vw;
+      width: 98.755vw;
+      background-image: url("benphai.png");
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+      z-index: 2;
+    }
+
+    .left-block.run {
+      animation: slideLeft 1s forwards;
+    }
+
+    .right-block.run {
+      animation: slideRight 1s forwards;
+    }
+
+    @keyframes slideLeft {
+      from {
+        left: -65vw;
+      }
+
+      to {
+        left: 0;
+      }
+    }
+
+    @keyframes slideRight {
+      from {
+        right: -65vw;
+      }
+
+      to {
+        right: 0;
+      }
+    }
+
+    /* ------------------ TEXT TITLE ------------------ */
+    .text-gradient {
+      font-size: 8vw;
+      font-weight: 900;
+      font-family: serif;
+      background-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-stroke: 2px red;
+      text-shadow: 2px 5px 20px black;
+      color: transparent;
+      color: white;
+      opacity: 0;
+      transform: scale(0.6);
+      animation: showText 1s forwards;
+      animation-delay: 2.3s;
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+
+    @keyframes showText {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ------------------ MAIN CONTAINER ------------------ */
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: #f2f6f7;
+      position: relative;
+    }
+
+    /* ------------------ CONTENT AREA ------------------ */
+    .noidung {
+      background-color: #111;
+      min-height: 100vh;
+      position: relative;
+      z-index: 10 !important;
+    }
+
+    /* ------------------ BUBBLE AREA ------------------ */
+    .bubble-container {
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      padding: 70px 0;
+      background-image: url("background2.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+      border: 4px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 25px rgba(8, 8, 8, 0.788),
+        0 0 60px rgba(255, 255, 255, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .bubble img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bubble:hover {
+      transform: scale(1.12);
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      25% {
+        transform: translate(25px, 20px) rotate(4deg);
+      }
+
+      50% {
+        transform: translate(-20px, 35px) rotate(-3deg);
+      }
+
+      75% {
+        transform: translate(30px, 10px) rotate(2deg);
+      }
+    }
+
+    /* ------------------ MODAL ------------------ */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 25px;
+      width: 90%;
+      max-width: 450px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    .modal-header {
+      height: 180px;
+      background: url("background2.jpg") center / cover;
+      border-radius: 25px 25px 0 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 5px solid white;
+      object-fit: cover;
+    }
+
+    .modal-body {
+      padding: 70px 20px 20px;
+    }
+
+    .modal-name {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .modal-position {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #e45;
+    }
+
+    .modal-description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    /* ------------------ TASKBAR ------------------ */
+    .taskbar {
+      width: 100vw;
+      height: 7vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      z-index: 20;
+    }
+
+    .logotaskbar {
+      height: 60%;
+      margin-left: 20px;
+    }
+
+    .more {
+      height: 40%;
+      margin-right: 30px;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+
+    .more:hover {
+      transform: scale(1.1);
+    }
+
+    /* ------------------ SIDEBAR ------------------ */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 300px;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.6);
+      transition: 0.4s ease;
+      z-index: 3000;
+      padding: 20px;
+      padding-top: 100px;
+      color: white;
+    }
+
+    .sidebar.open {
+      right: 0;
+    }
+
+    /* ------------------ 20/11 CARD ------------------ */
+    .noidung3 {
+      min-height: 100vh;
+      background-image: url("background4.jpg");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .thiep {
+      background: rgba(255, 118, 20, 0.9);
+      width: 1000px;
+      max-width: 90%;
+      border-radius: 50px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .thiep.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .thiep-title {
+      font-size: 42px;
+      margin-bottom: 25px;
+    }
+
+    .thiep-content {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .thiep-image {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+    }
+
+    .thiep-message {
+      max-width: 600px;
+      font-size: 22px;
+      text-align: left;
+    }
+
+    /* ------------------ RESPONSIVE ------------------ */
+    @media (max-width: 900px) {
+      .text-gradient {
+        font-size: 12vw;
+        margin-top: 20vh;
+      }
+
+      .bubble {
+        border-width: 2px;
+      }
+
+      .modal-avatar {
+        width: 110px;
+        height: 110px;
+      }
+
+      .modal-description {
+        font-size: 16px;
+      }
+
+      .thiep-title {
+        font-size: 32px;
+      }
+
+      .thiep-message {
+        font-size: 18px;
+        text-align: center;
+      }
+
+      .left-block {
+        left: -200vw;
+        width: 100vw;
+        background-image: url("dtnentrai.png");
+        clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
+        z-index: 3;
+      }
+
+      .right-block {
+        right: -200vw;
+        width: 100vw;
+        background-image: url("dtnenphai.png");
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+        z-index: 2;
+      }
+    }
+
+    @media (max-width: 728px) {
+      .khoi1 img {
+        width: 70vw;
+      }
+
+      .bubble {
+        width: 110px !important;
+        height: 110px !important;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+
+      .left-block {
+        left: -200vw;
+        width: 100vw;
+        background-image: url("dtnentrai.png");
+        clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
+        z-index: 3;
+      }
+
+      .right-block {
+        right: -200vw;
+        width: 100vw;
+        background-image: url("dtnenphai.png");
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+        z-index: 2;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* FIX overflow trắng bên phải màn hình */
+    html,
+    body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    .left-block,
+    .right-block {
+      max-width: 100vw !important;
+      overflow: hidden;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- TASKBAR -->
+  <div class="taskbar">
+    <img class="logotaskbar" src="logo.png" />
+    <img class="more" src="danhmuc.png" />
+  </div>
 
-    <!-- TASKBAR -->
-    <div class="taskbar">
-        <img class="logotaskbar" src="logo.png">
-        <img class="more" src="danhmuc.png">
+  <!-- SIDEBAR -->
+  <div id="sidebarMenu" class="sidebar">
+    <h2>DANH MỤC</h2>
+    <ul>
+      <li>Trang chủ</li>
+      <li>Các thầy cô</li>
+      <li>Hoạt động</li>
+      <li>Liên hệ</li>
+    </ul>
+  </div>
+
+  <!-- OPENING -->
+  <div class="container">
+    <div class="baoquanh">
+      <div class="khoi1"><img src="logo.png" /></div>
     </div>
 
-    <!-- SIDEBAR -->
-    <div id="sidebarMenu" class="sidebar">
-        <h2>DANH MỤC</h2>
-        <ul>
-            <li>Trang chủ</li>
-            <li>Các thầy cô</li>
-            <li>Hoạt động</li>
-            <li>Liên hệ</li>
-        </ul>
-    </div>
+    <div class="left-block"></div>
+    <div class="right-block"></div>
 
-    <!-- OPENING -->
-    <div class="container">
-        <div class="baoquanh">
-            <div class="khoi1"><img src="logo.png" /></div>
+    <div class="text-gradient" id="monhoc"></div>
+  </div>
+
+  <!-- BUBBLE SECTION -->
+  <div class="noidung" id="noidung">
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()" style="
+              position: absolute;
+              top: 10px;
+              right: 15px;
+              font-size: 32px;
+              background: none;
+              border: none;
+              cursor: pointer;
+            ">
+          ×
+        </button>
+        <div class="modal-header">
+          <img id="modalAvatar" class="modal-avatar" />
         </div>
-
-        <div class="left-block"></div>
-        <div class="right-block"></div>
-
-        <div class="text-gradient">Tổ Tiếng Anh</div>
-    </div>
-
-    <!-- BUBBLE SECTION -->
-    <div class="noidung" id="noidung">
-        <div class="bubble-container" id="bubbleContainer"></div>
-
-        <!-- MODAL -->
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <button class="close-btn" onclick="closeModal()"
-                    style="position:absolute;top:10px;right:15px;font-size:32px;background:none;border:none;cursor:pointer;">×</button>
-                <div class="modal-header">
-                    <img id="modalAvatar" class="modal-avatar">
-                </div>
-                <div class="modal-body">
-                    <h2 id="modalName" class="modal-name"></h2>
-                    <div id="modalPosition" class="modal-position"></div>
-                    <p id="modalDescription" class="modal-description"></p>
-                </div>
-            </div>
+        <div class="modal-body">
+          <h2 id="modalName" class="modal-name"></h2>
+          <div id="modalPosition" class="modal-position"></div>
+          <p id="modalDescription" class="modal-description"></p>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- 20/11 CARD -->
-    <div class="noidung3">
-        <div id="thiep" class="thiep">
+  <!-- 20/11 CARD -->
+  <div class="noidung3">
+    <div class="card">
+      <div class="inside">
+        <p>Merry Christmas</p>
+      </div>
+      <div class="outside">
+        <div class="front">
+          <div class="belt"></div>
+          <div class="mouth"></div>
+          <div class="beard"></div>
+        </div>
+        <div class="back"></div>
+      </div>
+    </div>
+    <!-- <div id="thiep" class="thiep">
             <h1 class="thiep-title">Chúc Mừng Ngày Nhà Giáo Việt Nam 20/11</h1>
             <div class="thiep-content">
                 <img src="logo.png" class="thiep-image">
@@ -547,157 +733,284 @@
                     Chúng em luôn biết ơn công lao dạy dỗ của thầy cô.
                 </p>
             </div>
-        </div>
-    </div>
+        </div> -->
+  </div>
 
-    <script>
-        /* OPENING FIX CHROME */
-        const baoquanh = document.querySelector(".baoquanh");
-        const leftBlock = document.querySelector(".left-block");
-        const rightBlock = document.querySelector(".right-block");
+  <script>
 
-        baoquanh.addEventListener("animationend", () => {
+    // DATA STRUCTURE
+    const data = {
+      toan: {
+        ten: "Tổ Toán",
+        thanhvien: [
+          {
+            size: 170,
+            image:
+              "./picofteacher/Đỗ Phương Anh Tổ Toán.png",
+            name: "Đỗ Phương Anh  ",
+            position: "Tổ Toán",
+            description: "Chúc thầy một ngày 20/11 thật vui vẻ và hạnh phúc.",
+            duration: 9,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Nguyễn Thị Bích Hồng- Tổ Toán.png",
+            name: "Nguyễn Thị Bích Hồng",
+            position: "Tổ Toán",
+            description: "Chúc cô luôn mạnh khỏe và thành công.",
+            duration: 8,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Nguyễn Thị Phương Thảo TOÁn.png",
+            name: "Nguyễn Thị Phương Thảo",
+            position: "Tổ Toán",
+            description: "Chúc thầy cô luôn nhiệt huyết với nghề.",
+            duration: 7,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Nguyễn Thu Trang Toán.png",
+            name: "Nguyễn Thu Trang",
+            position: "Tổ Toán",
+            description: "Kính chúc cô một ngày 20/11 ý nghĩa.",
+            duration: 8,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Phạm Thu Trang Tổ TOÁN.png",
+            name: "Phạm Thu Trang",
+            position: "Tổ Toán",
+            description: "Kính chúc cô một ngày 20/11 ý nghĩa.",
+            duration: 8,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Trịnh Thu Vân Toán.png",
+            name: "Trịnh Thu Vân",
+            position: "Tổ Toán",
+            description: "Kính chúc cô một ngày 20/11 ý nghĩa.",
+            duration: 8,
+          },
+        ],
+      },
+      van: {
+        ten: "Tổ Văn",
+        thanhvien: [
+          {
+            size: 170,
+            image:
+              "https://via.placeholder.com/170x170/904ae2/ffffff?text=Giáo+viên+1",
+            name: "Hoàng Văn E",
+            position: "Tổ Văn",
+            description: "Chúc thầy luôn truyền cảm hứng cho học sinh.",
+            duration: 9,
+          },
+          {
+            size: 170,
+            image:
+              "https://via.placeholder.com/170x170/e2e24a/ffffff?text=Giáo+viên+2",
+            name: "Đặng Thị F",
+            position: "Tổ Văn",
+            description: "Chúc cô một ngày 20/11 thật ý nghĩa.",
+            duration: 8,
+          },
+          {
+            size: 170,
+            image:
+              "https://via.placeholder.com/170x170/4ae2e2/ffffff?text=Giáo+viên+3",
+            name: "Vũ Văn G",
+            position: "Tổ Văn",
+            description: "Chúc thầy luôn khỏe mạnh và hạnh phúc.",
+            duration: 7,
+          },
+        ],
+      },
+      tienganh: {
+        ten: "Tổ Tiếng Anh",
+        thanhvien: [
+          {
+            size: 170,
+            image:
+              "./picofteacher/Trần Thị Lụa Tổ TA.png",
+            name: "Trần Thị Lụa",
+            position: "Tổ Tiếng Anh",
+            description:
+              "Chúng em xin kính chúc cô một ngày 20/11 thật vui vẻ và ngập tràn hạnh phúc.",
+            duration: 9,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Nguyễn Minh Phương TA.png",
+            name: "Nguyễn Minh Phương",
+            position: "Tổ Tiếng Anh",
+            description: "Chúc thầy một ngày 20/11 thật vui vẻ.",
+            duration: 8,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Hoàng Thị Linh Hương Tổ Tiếng Anh.png",
+            name: "Hoàng Thị Linh Hương",
+            position: "Tổ Tiếng Anh",
+            description: "Chúc cô luôn mạnh khỏe và thành đạt.",
+            duration: 7,
+          },
+          {
+            size: 170,
+            image:
+              "./picofteacher/Phạm Thị Quyên Tổ TANH.png",
+            name: "Phạm Thị Quyên",
+            position: "Tổ Tiếng Anh",
+            description: "Chúc cô luôn mạnh khỏe và hạnh phúc.",
+            duration: 8,
+          },
+        ],
+      },
+    };
 
-            // chạy 2 mảnh kéo sang
-            leftBlock.classList.add("run");
-            rightBlock.classList.add("run");
+    // GET URL PARAMETER
+    const params = new URLSearchParams(window.location.search);
+    const mon = params.get("monhoc") || "tienganh"; // default to tienganh
+    console.log("Subject selected:", mon);
 
-            // chờ cho hiệu ứng slide xong hẳn
-            setTimeout(() => {
+    // CHECK IF SUBJECT EXISTS
+    if (!data[mon]) {
+      console.error("Subject not found:", mon);
+      alert("Môn học không tồn tại! Vui lòng chọn: toan, van, hoặc tienganh");
+    }
 
-                // Tắt overflow:hidden tạm thời (nguyên nhân Chrome không scroll mượt)
-                document.body.style.overflow = "visible";
+    const monData = data[mon];
+    const thanhvien = monData.thanhvien;
 
-                const target = document.getElementById("noidung").offsetTop;
+    // SET TITLE
+    const monhocTitle = document.getElementById("monhoc");
+    if (monhocTitle && monData) {
+      monhocTitle.innerHTML = monData.ten;
+    }
 
-                // SCROLL MƯỢT TUYỆT ĐỐI TRÊN CHROME
-                window.scrollTo({
-                    top: target,
-                    behavior: "smooth"
-                });
+    // OPENING ANIMATION
+    const baoquanh = document.querySelector(".baoquanh");
+    const leftBlock = document.querySelector(".left-block");
+    const rightBlock = document.querySelector(".right-block");
 
-                // Ẩn màn che sau khi scroll bắt đầu
-                setTimeout(() => {
-                    baoquanh.style.display = "none";
-                }, 300);
+    baoquanh.addEventListener("animationend", () => {
+      leftBlock.classList.add("run");
+      rightBlock.classList.add("run");
 
-            }, 1200); // thời gian LEFT/RIGHT slide xong
+      setTimeout(() => {
+        document.body.style.overflow = "visible";
+        const target = document.getElementById("noidung").offsetTop;
+
+        window.scrollTo({
+          top: target,
+          behavior: "smooth",
         });
 
+        setTimeout(() => {
+          baoquanh.style.display = "none";
+        }, 300);
+      }, 2400);
+    });
 
-        /* BUBBLES DATA */
-        const bubbleContainer = document.getElementById("bubbleContainer");
+    // BUBBLE PLACEMENT
+    const bubbleContainer = document.getElementById("bubbleContainer");
+    const placedBubbles = [];
 
-        const people = [
-            { size: 170, image: "./picofteacher/Trần Thị Lụa Tổ TA.png", name: "Trần Thị Lụa", position: "Tổ Tiếng Anh", description: "Chúng em xin kính chúc cô một ngày 20/11 thật vui vẻ và ngập tràn hạnh phúc.", duration: 9 },
-            { size: 170, image: "./picofteacher/Nguyễn Minh Phương TA.png", name: "Nguyễn Minh Phương", position: "Tổ Tiếng Anh", description: "Chúc thầy một ngày 20/11 thật vui vẻ.", duration: 8 },
-            { size: 170, image: "./picofteacher/Hoàng Thị Linh Hương Tổ Tiếng Anh.png", name: "Hoàng Thị Linh Hương", position: "Tổ Tiếng Anh", description: "Chúc thầy cô luôn mạnh khỏe.", duration: 7 },
-            { size: 170, image: "./picofteacher/Phạm Thị Quyên Tổ TANH.png", name: "Phạm Thị Quyên", position: "Tổ Tiếng Anh", description: "Chúc thầy cô luôn mạnh khỏe.", duration: 8 }
-        ];
+    function getRandomPosition(size) {
+      let x,
+        y,
+        safe = false,
+        attempts = 0;
+      const cw = bubbleContainer.clientWidth;
+      const ch = bubbleContainer.clientHeight;
 
-        /* AVOID BUBBLE OVERLAP */
-        const placedBubbles = [];
+      while (!safe && attempts < 100) {
+        x = Math.random() * (cw - size);
+        y = Math.random() * (ch - size);
+        safe = true;
 
-        function getRandomPosition(size) {
-            let x, y, safe = false, attempts = 0;
-            const cw = bubbleContainer.clientWidth;
-            const ch = bubbleContainer.clientHeight;
-
-            while (!safe && attempts < 100) {
-                x = Math.random() * (cw - size);
-                y = Math.random() * (ch - size);
-                safe = true;
-
-                for (let b of placedBubbles) {
-                    const dx = b.x - x, dy = b.y - y;
-                    if (Math.sqrt(dx * dx + dy * dy) < (b.size + size) * 0.6) { safe = false; break; }
-                }
-                attempts++;
-            }
-
-            placedBubbles.push({ x, y, size });
-            return { x, y };
+        for (let b of placedBubbles) {
+          const dx = b.x - x;
+          const dy = b.y - y;
+          if (Math.sqrt(dx * dx + dy * dy) < (b.size + size) * 0.6) {
+            safe = false;
+            break;
+          }
         }
+        attempts++;
+      }
 
-        /* RENDER BUBBLES */
-        people.forEach((p, index) => {
-            const bubble = document.createElement("div");
-            const pos = getRandomPosition(p.size);
+      placedBubbles.push({ x, y, size });
+      return { x, y };
+    }
 
-            bubble.className = "bubble";
-            bubble.style.width = p.size + "px";
-            bubble.style.height = p.size + "px";
-            bubble.style.left = pos.x + "px";
-            bubble.style.top = pos.y + "px";
-            bubble.style.animation = `float1 ${p.duration}s infinite`;
+    // RENDER BUBBLES
+    thanhvien.forEach((p) => {
+      const bubble = document.createElement("div");
+      const pos = getRandomPosition(p.size);
 
-            const img = document.createElement("img");
-            img.src = p.image;
-            bubble.appendChild(img);
+      bubble.className = "bubble";
+      bubble.style.width = p.size + "px";
+      bubble.style.height = p.size + "px";
+      bubble.style.left = pos.x + "px";
+      bubble.style.top = pos.y + "px";
+      bubble.style.animation = `float1 ${p.duration}s infinite`;
 
-            bubble.onclick = () => showModal(index);
+      const img = document.createElement("img");
+      img.src = p.image;
+      img.alt = p.name;
+      bubble.appendChild(img);
 
-            bubbleContainer.appendChild(bubble);
-        });
+      bubble.onclick = () => {
+        document.getElementById("modalAvatar").src = p.image;
+        document.getElementById("modalName").textContent = p.name;
+        document.getElementById("modalPosition").textContent = p.position;
+        document.getElementById("modalDescription").textContent =
+          p.description;
+        document.getElementById("modal").classList.add("active");
+      };
 
-        /* MODAL */
-        function showModal(i) {
-            const p = people[i];
-            document.getElementById("modalAvatar").src = p.image;
-            document.getElementById("modalName").textContent = p.name;
-            document.getElementById("modalPosition").textContent = p.position;
-            document.getElementById("modalDescription").textContent = p.description;
-            document.getElementById("modal").classList.add("active");
-        }
+      bubbleContainer.appendChild(bubble);
+    });
 
-        function closeModal() {
-            document.getElementById("modal").classList.remove("active");
-        }
+    // MODAL FUNCTIONS
+    function closeModal() {
+      document.getElementById("modal").classList.remove("active");
+    }
 
-        document.getElementById("modal").onclick = (e) => {
-            if (e.target === e.currentTarget) closeModal();
-        };
+    document.getElementById("modal").onclick = (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    };
 
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") closeModal();
-        });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
 
-        /* SIDEBAR */
-        const sidebar = document.getElementById("sidebarMenu");
-        const moreBtn = document.querySelector(".more");
+    // SIDEBAR
+    const sidebar = document.getElementById("sidebarMenu");
+    const moreBtn = document.querySelector(".more");
 
-        moreBtn.addEventListener("click", () => { sidebar.classList.toggle("open"); });
+    moreBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
 
-        document.addEventListener("click", (e) => {
-            if (!sidebar.contains(e.target) && !moreBtn.contains(e.target))
-                sidebar.classList.remove("open");
-        });
+    document.addEventListener("click", (e) => {
+      if (!sidebar.contains(e.target) && !moreBtn.contains(e.target)) {
+        sidebar.classList.remove("open");
+      }
+    });
 
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") sidebar.classList.remove("open");
-        });
-
-        /* 20/11 CARD SHOW ON SCROLL */
-        const thiep = document.getElementById("thiep");
-
-        function checkThiepVisible() {
-            const rect = thiep.getBoundingClientRect();
-            const h = window.innerHeight;
-            if (rect.top < h && rect.bottom > 0) {
-                thiep.classList.add("visible");
-            } else {
-                thiep.classList.remove("visible");
-            }
-        }
-
-        window.addEventListener("scroll", checkThiepVisible);
-        window.addEventListener("resize", checkThiepVisible);
-        checkThiepVisible();
-
-
-
-    </script>
-
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") sidebar.classList.remove("open");
+    });
+  </script>
 </body>
 
 </html>
